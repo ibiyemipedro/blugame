@@ -1,0 +1,28 @@
+{
+  "name": "blusalt_test",
+  "version": "1.0.0",
+  "description": "Blusalt game app backend",
+  "main": "app.js",
+  "scripts": {
+    "test": "jest",
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "author": "Ibiyemi Pedro",
+  "license": "MIT",
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  },
+  "dependencies": {
+    "bcrypt": "^5.0.0",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-validator": "^6.6.1",
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.29.1",
+    "mongoose": "^5.10.13",
+    "shortid": "^2.2.16",
+    "socket.io": "^3.0.1"
+  }
+}
