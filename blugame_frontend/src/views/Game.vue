@@ -55,16 +55,21 @@
             </v-col>
 
             <v-layout row wrap>
-              <v-card>
+              <v-card class="pt-5">
                 <v-col>
-                  <p>Blugame is a guess game between two players, a user starts the game, selects his/her opponent and sets a word to be guessed by the opponent, the opponent guesses and the users replys a YES or a NO. The opponent has 20 guesses for the game, the game ends when the opponent gueses the right word before a 20th guess or when the user runs of guess and loses</p>
+                  <p
+                    class="mx-5"
+                  >Blugame is a guess game between two players, a user starts the game, selects his/her opponent and sets a word to be guessed by the opponent, the opponent guesses and the users replys a YES or a NO. The opponent has 20 guesses for the game, the game ends when the opponent gueses the right word before a 20th guess or when the user runs of guess and loses</p>
+                  <p class="mx-5">
+                    <v-icon color="error" class="mr-3">mdi-alert-circle-outline</v-icon>Once challanged to play the game, every word counts, every reply counts to your 20 replies per game session.
+                  </p>
                 </v-col>
 
                 <v-layout row wrap justify-center>
                   <v-btn x-large color="success" dark class="my-8" @click="dialog = true">Start Game</v-btn>
                 </v-layout>
                 <v-col>
-                  <v-btn color="tertiary" outlined dark class="my-8">Log Out</v-btn>
+                  <v-btn color="primary" outlined dark class="my-8 hidden-md-and-up">Log Out</v-btn>
                 </v-col>
               </v-card>
             </v-layout>

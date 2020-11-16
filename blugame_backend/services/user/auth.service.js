@@ -16,6 +16,7 @@ const authUser = async ({ username, password, flag }) => {
   let responseObj = responseBuilder();
   try {
     if (flag === 'register') {
+      console.log('reg here')
       let existingUser = await User.findOne({ username: username });
       if (existingUser) {
         responseObj = responseBuilder(false, null, 'Username already used');

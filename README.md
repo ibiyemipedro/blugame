@@ -25,10 +25,11 @@ node -v
 
 ## Project Structure
 The code base is structured in a modular way, following a Model - Controller - Service Architecture. An overview of the code base:
-- CONFIG - containing config data and files 
+- CONFIG - contains config data Eg DB config and other config 
 - CONTROLLER - contains the files that receives data from the routes and call the services 
-- ROUTES - containing files that handles the request routes and forward to appropriate controller
-- SERVICES - containing services files that handles requests functionalities 
+- ROUTES - contains files that handles the request routes and forward to appropriate controller
+- SERVICES - contains services files that handles requests functionalities 
+- TEST - contains test files 
 - UTILS - containing classes, middlewares and other utility functions 
 
 ## Set - Up
@@ -285,7 +286,26 @@ If everything runs fine, navigate to your browser and open http://localhost:3250
 }
 
 ```
+### Backend Test
+Test files are located in the test folder and to run the test, run the command below in the root folder of the backend
+```bash
+npm run test
+```
 
+
+
+## Backend Docker Installation
+To run the dockerized version of the backend, ensure you have docker installed  visit [https://docs.docker.com/](https://docs.docker.com/get-docker/) to install. Navigate to the backend base folder and run the following commands below The docker file is located in the base folder. To create the image in the current directory, run
+
+```bash
+docker build -t blugame_backend:1.0 .
+```
+
+After creating the image, to run the image on the default port of the app
+
+```bash
+docker run -p 3250:3205 blugame_backend:1.0 
+```
 
 ## FrontEnd Installation
 *Folder:* {baseFolder}/blugame_frontend
@@ -350,12 +370,25 @@ npm run serve
 ```
 If everything runs fine, navigate to your browser and open http://localhost:8000. The project will be running on the endpoint.
 
+## Frontend Docker Installation
+To run the dockerized version of the frontend, ensure you have docker installed  visit [https://docs.docker.com/](https://docs.docker.com/get-docker/) to install. Navigate to the frontend base folder and run the following commands below The docker file is located in the base folder. To create the image in the current directory, run
+
+```bash
+docker build -t blugame_frontend:1.0 .
+```
+
+After creating the image, to run the image on the default port of the app
+
+```bash
+docker run -p 8080:8080 blugame_backend:1.0 
+```
+
 ## Contributions
 
 For contributions and improvement of the game, some areas of focus would be
 
 ### Test
-The game is an ongoing project, and tests have not been written yet both for the frontend and backend. A recommended framework would be jest as it is both recommended by both express and vue
+The game is an ongoing project, and not all tests have not been written yet both for the frontend and backend. A framework used is jest as it is both recommended by both express and vue
 
 ### Game Process
-The gaming process can still be worked on for a better playing experience, some ideas would be adding a timing process to monitor users inactivity and other ideas that come to mind.
+The gaming process can still be worked on for a better playing experience, some idea would be adding a timing process to monitor users inactivity and other ideas that come to mind.

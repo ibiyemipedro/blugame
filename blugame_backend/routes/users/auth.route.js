@@ -4,6 +4,13 @@ const { body } = require('express-validator');
 const router = express.Router();
 const { userAuth } = require('../../controllers/users/auth.controller')
 
+router.get('/', (req, res, next) => res.json({
+  status: 200,
+  data: null,
+  message: 'Welcome to BLUGAME, Kindly read the documentation on how to access the app'
+}));
+
+
 router.post('/auth', [
   body('username')
     .exists()
@@ -18,5 +25,4 @@ router.post('/auth', [
   body('flag')
     .optional()
 ], userAuth);
-
 module.exports = router
