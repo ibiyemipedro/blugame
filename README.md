@@ -1,4 +1,4 @@
-# Blugame
+# BLUGAME
 
 Blugame is a guess game between two players, a user starts the game, selects his/her opponent and sets a word to be guessed by the opponent, the opponent guesses and the users replys a YES or a NO. The opponent has 20 guesses for the game, the game ends when the opponent gueses the right word before a 20th guess or when the user runs of guess and loses
 
@@ -62,6 +62,22 @@ Run the following command
 npm run start
 ```
 If everything runs fine, navigate to your browser and open http://localhost:3250. The project will be running on the endpoint.
+
+
+
+## Backend Docker Installation
+To run the dockerized version of the backend, ensure you have docker installed  visit [https://docs.docker.com/](https://docs.docker.com/get-docker/) to install. Navigate to the backend base folder and run the following commands below The docker file is located in the base folder. To create the image in the current directory, run
+
+```bash
+docker build -t blugame_backend:1.0 .
+```
+
+After creating the image, to run the image on the default port of the app
+
+```bash
+docker run -p 3250:3205 blugame_backend:1.0 
+```
+
 
 ## EndPoints
 
@@ -292,20 +308,6 @@ Test files are located in the test folder and to run the test, run the command b
 npm run test
 ```
 
-
-
-## Backend Docker Installation
-To run the dockerized version of the backend, ensure you have docker installed  visit [https://docs.docker.com/](https://docs.docker.com/get-docker/) to install. Navigate to the backend base folder and run the following commands below The docker file is located in the base folder. To create the image in the current directory, run
-
-```bash
-docker build -t blugame_backend:1.0 .
-```
-
-After creating the image, to run the image on the default port of the app
-
-```bash
-docker run -p 3250:3205 blugame_backend:1.0 
-```
 
 ## FrontEnd Installation
 *Folder:* {baseFolder}/blugame_frontend
