@@ -7,7 +7,6 @@
             <v-card py-5 flat>
               <h4 class="pa-4">BLU-GAME</h4>
             </v-card>
-
             <div class="px-4 mt-5">
               <v-btn outlined color="primary" @click="logOut()">
                 Logout
@@ -30,12 +29,12 @@
           </v-navigation-drawer>
         </v-card>
       </v-flex>
-      <v-flex 8 xs6>
-        <v-container>
+      <v-flex xs10 sm8 md6 px-5>
+        <v-container pr-7>
           <v-row>
             <v-layout row justify-space-between>
               <v-flex>
-                <v-col class="px-7">
+                <v-col class="px-1">
                   <v-badge color="error" overlap class="mt-5">
                     <template slot="badge">2</template>
                     <v-icon color="tertiary">mdi-bell</v-icon>
@@ -57,54 +56,18 @@
 
             <v-layout row wrap>
               <v-card>
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quibusdam perferendis mollitia dolore distinctio nostrum odit obcaecati dolor facere tempore. Expedita nulla doloribus blanditiis dolores maxime temporibus et ea dolore impedit.
+                <v-col>
+                  <p>Blugame is a guess game between two players, a user starts the game, selects his/her opponent and sets a word to be guessed by the opponent, the opponent guesses and the users replys a YES or a NO. The opponent has 20 guesses for the game, the game ends when the opponent gueses the right word before a 20th guess or when the user runs of guess and loses</p>
+                </v-col>
+
                 <v-layout row wrap justify-center>
                   <v-btn x-large color="success" dark class="my-8" @click="dialog = true">Start Game</v-btn>
                 </v-layout>
+                <v-col>
+                  <v-btn color="tertiary" outlined dark class="my-8">Log Out</v-btn>
+                </v-col>
               </v-card>
             </v-layout>
-
-            <!-- <v-col cols="12" md12>
-              <v-card class="overflow-y-auto" height="400">
-                <v-card-text>
-                  <div v-for="item in messages" :key="item.message" class="mb-4">
-                    <div v-if="item.isMe">
-                      <v-layout row wrap justify-end>
-                        <v-card width="200" color="secondary" class="pa-3">
-                          <p>{{ item.message }}</p>
-                          <h4>{{ item.sender }} - {{ item.time }}</h4>
-                        </v-card>
-                      </v-layout>
-                    </div>
-
-                    <div v-else>
-                      <v-layout row wrap justify-start>
-                        <v-card width="200" color="secondary" class="pa-3">
-                          <p>{{ item.message }}</p>
-                          <h4>{{ item.sender }} - {{ item.time }}</h4>
-                        </v-card>
-                      </v-layout>
-                    </div>
-                  </div>
-                </v-card-text>
-              </v-card>
-            </v-col>-->
-
-            <!-- <v-layout wrap>
-              <v-flex xs10>
-                <v-text-field
-                  label="Enter message"
-                  outlined
-                  single-line
-                  dense
-                  hide-details
-                  v-model="input"
-                ></v-text-field>
-              </v-flex>
-              <v-flex xs2>
-                <v-btn outlined block color="primary" dark @click="sendChat">send</v-btn>
-              </v-flex>
-            </v-layout>-->
           </v-row>
         </v-container>
       </v-flex>
@@ -112,14 +75,15 @@
         <v-container>
           <v-row>
             <v-col cols="12" md12>
-              <div class="pa-4">
-                <h3>LEADERBOARD</h3>
-              </div>
+              <v-card flat color="tertiary">
+                <div class="pa-4">
+                  <h3>LEADERBOARD</h3>
+                </div>
+              </v-card>
             </v-col>
             <v-timeline dense>
               <v-timeline-item v-for="item in leaderBoard" :key="item">
-                <span slot="opposite">Tus eu perfecto</span>
-                <v-card class="elevation-2 pa-4">
+                <v-card class="elevation-2 px-4 py-2">
                   <h4>{{ item }}</h4>
                 </v-card>
               </v-timeline-item>
@@ -199,23 +163,24 @@
             </v-layout>
             <v-card class="overflow-y-auto" height="400" flat>
               <v-card-text>
-                <div v-for="item in messages" :key="item.message" class="mb-4">
-                  <div v-if="item.isMe">
-                    <v-layout row wrap justify-end>
-                      <v-card width="200" color="secondary" class="pa-3">
-                        <p>{{ item.message }}</p>
-                        <h4>{{ item.sender }} - {{ item.time }}</h4>
-                      </v-card>
-                    </v-layout>
-                  </div>
-
-                  <div v-else>
-                    <v-layout row wrap justify-start>
-                      <v-card width="200" color="secondary" class="pa-3">
-                        <p>{{ item.message }}</p>
-                        <h4>{{ item.sender }} - {{ item.time }}</h4>
-                      </v-card>
-                    </v-layout>
+                <div id="chatDiv">
+                  <div v-for="item in messages" :key="item.id" class="mb-4" v-chat-scroll>
+                    <div v-if="item.isMe">
+                      <v-layout row wrap justify-end>
+                        <v-card width="200" color="secondary" class="pa-3">
+                          <p>{{ item.message }}</p>
+                          <h4>{{ item.sender }} - {{ item.time }}</h4>
+                        </v-card>
+                      </v-layout>
+                    </div>
+                    <div v-else>
+                      <v-layout row wrap justify-start>
+                        <v-card width="200" color="secondary" class="pa-3">
+                          <p>{{ item.message }}</p>
+                          <h4>{{ item.sender }} - {{ item.time }}</h4>
+                        </v-card>
+                      </v-layout>
+                    </div>
                   </div>
                 </div>
               </v-card-text>
@@ -256,7 +221,7 @@
         </v-layout>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="green darken-1" text @click="dialog10 = false">Continue</v-btn>
+          <v-btn color="green darken-1" text @click="reset()">Reset</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -268,7 +233,7 @@
 <script>
 import LoadingModal from "../components/modals/LoadingModal";
 import io from "socket.io-client";
-// import axios from "axios";
+const moment = require("moment");
 import { validationMixin } from "vuelidate";
 import { required } from "vuelidate/lib/validators";
 export default {
@@ -304,12 +269,10 @@ export default {
       dialogIcon: "mdi-close-circle-outline",
       users: [],
       leaderBoard: [
-        "Cletus Bartholomew",
-        "Christian Chrismeek ",
         "Bose Gbajana",
         "King Adesina",
+        "Cletus Bartholomew",
         "Cletus Chijioke",
-        "Chris Chrismeek ",
         "Bose Gbaja",
         "King Adebayo",
       ],
@@ -324,7 +287,6 @@ export default {
       this.username = this.$store.getters.getUserName;
       this.token = this.$store.getters.getToken;
       if (!userStatus) {
-        console.log("Not logged in");
         this.$router.push("/");
       }
     },
@@ -336,37 +298,43 @@ export default {
       });
 
       this.socketConnection.on(this.username, (data) => {
-        const dataMessage = data.message;
+        if (data.gameOptions) {
+          if (data.gameOptions.message == 1) {
+            this.dialogIcon = "mdi-check-circle-outline";
+          }
+          this.dialogMessage = data.gameOptions.message;
+          this.dialog10 = true;
+        }
         if (!this.opponent) {
           this.opponent = data.opponent;
         }
-        let isMe = false;
-        let sender = dataMessage.sender;
-        if (dataMessage.sender == this.username) {
-          isMe = true;
-          sender = "Me";
-        }
-        this.messages.push({
-          message: dataMessage.message,
-          isMe,
-          sender,
-          time: dataMessage.time,
-        });
+        this.showMessage(data.message);
         this.dialog1 = true;
       });
-      this.socketConnection.on(this.username + "WIN", (data) => {
-        console.log(data);
-        if (data) {
-          this.dialogMessage = data.message;
-          this.dialog10 = true;
-        }
+
+      this.socketConnection.on("disconnect", () => {
+        this.disconnectUser(this.username);
+        this.logOut();
       });
-      this.socketConnection.on(this.username + "GAMEOVER", (data) => {
-        console.log(data);
-        if (data) {
-          this.dialogMessage = data.message;
-          this.dialog10 = true;
-        }
+    },
+    showMessage(message) {
+      let isMe = false;
+      let sender = message.sender;
+      if (message.sender == this.username) {
+        isMe = true;
+        sender = "Me";
+      }
+      this.messages.push({
+        id: Math.floor(Math.random() * 9999) + 1,
+        message: message.message,
+        isMe,
+        sender,
+        time: message.time,
+      });
+    },
+    async disconnectUser(username) {
+      await this.$store.dispatch("disconnectUser", {
+        username,
       });
     },
     async gamePlay() {
@@ -378,6 +346,12 @@ export default {
         if (!gameID) {
           gameID = this.username;
         }
+        const message = {
+          sender: this.username,
+          message: this.reply,
+          time: moment().format("h:mm a"),
+        };
+        this.showMessage(message);
         const data = {
           gameId: gameID,
           username: this.username,
@@ -385,13 +359,12 @@ export default {
           reply: this.reply,
         };
         this.reply = "";
+        this.$vuetify.goTo(this.divHeight());
         try {
-          const userStatus = await this.$store.dispatch("inGamePlay", data);
-          console.log(userStatus);
-          // if (userStatus.data.status) {
-          //   this.dialog = false;
-          //   this.dialog1 = true;
-          // }
+          const gamePlay = await this.$store.dispatch("inGamePlay", data);
+          if (!gamePlay.status) {
+            this.logOut();
+          }
         } catch (error) {
           console.log(error);
         }
@@ -409,9 +382,6 @@ export default {
         const userStatus = await this.$store.dispatch("playGame", data);
         if (userStatus.status) {
           this.myGameID = userStatus.data;
-          // this.opponent = userStatus.data;
-          console.log("game ID ", this.myGameID);
-          this.$store.dispatch("setOpponent", userStatus.data);
           this.dialog = false;
           this.dialog1 = true;
         } else {
@@ -436,8 +406,17 @@ export default {
       }
     },
     logOut() {
+      this.disconnectUser(this.username);
       this.$store.dispatch("logOut");
       this.$router.push("/");
+    },
+    reset() {
+      this.opponent = "";
+      this.question = "";
+      this.myGameID = "";
+      this.reply = "";
+      this.dialog10 = false;
+      this.dialog1 = false;
     },
     next() {
       this.$v.opponent.$touch();
@@ -457,6 +436,9 @@ export default {
     },
   },
   computed: {
+    divHeight() {
+      return document.getElementById("chatDiv").scrollHeight;
+    },
     questionErrors() {
       const errors = [];
       if (!this.$v.question.$dirty) return errors;

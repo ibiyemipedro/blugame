@@ -1,4 +1,3 @@
-const Game = require('../../models/game.model');
 const User = require('../../models/user.model');
 const socketIO = require('../../socket');
 const { responseBuilder, formatMessage } = require('../../utils/utils');
@@ -7,7 +6,7 @@ const playingUsers = [];
 const activeGames = {};
 
 /**
- * Play game user
+ * Get users online
  * @param username 
  * @returns status - Object
 */
@@ -28,11 +27,11 @@ const getOnlineUsers = async ({ username }) => {
 }
 
 /**
- * Play game user
+ * Play a user - start game
  * @param username 
  * @param opponent 
  * @param question 
- * @returns status and gameId - Object
+ * @returns status - Object
 */
 const playUser = async ({ username, opponent, question }) => {
   let responseObj = responseBuilder();
@@ -72,7 +71,7 @@ const playUser = async ({ username, opponent, question }) => {
 }
 
 /**
- * Play game user
+ * In game play
  * @param gameId 
  * @param username 
  * @param opponent 
@@ -80,8 +79,8 @@ const playUser = async ({ username, opponent, question }) => {
  * @returns status - Object
 */
 const gamePlay = async ({ gameId, username, opponent, reply }) => {
+  let responseObj = responseBuilder(true);
   try {
-    console.log('Game Play details: ', gameId, username, opponent, reply);
     const newGameObj = {
       status: true,
       opponent: opponent,
@@ -91,69 +90,56 @@ const gamePlay = async ({ gameId, username, opponent, reply }) => {
     if (activeGames[gameId].opponent == username) {
       activeGames[gameId].count += 1
     }
-    if (activeGames[gameId].question == reply) {
+    if (activeGames[gameId].question.toLowerCase() == reply.toLowerCase()) {
       playingUsers.pop(username, opponent);
-      delete activeGames[gameId];
-      let updatedGameObj = {
-        status: false,
-        opponent: opponent,
-        sender: username,
-        message: `${opponent} has won the game`
+      let gameOptions = {
+        message: `${activeGames[gameId].opponent} has won the game`,
+        status: 1
       }
-      socketIO.getIO().emit(`${gameId}WIN`, updatedGameObj);
+      delete activeGames[gameId];
+      socketIO.getIO().emit(username, { gameOptions });
+      socketIO.getIO().emit(opponent, { gameOptions });
       return;
     }
     if (activeGames[gameId].count >= 20) {
       playingUsers.pop(username, opponent);
-      delete activeGames[gameId];
-
-      let updatedGameObj = {
-        status: false,
-        opponent: opponent,
-        sender: username,
-        message: `${opponent} lost the game`
+      let gameOptions = {
+        message: `${activeGames[gameId].opponent} lost the game`,
+        status: 0
       }
-      console.log(updatedGameObj);
-      socketIO.getIO().emit(`${gameId}GAMEOVER`, updatedGameObj);
+      delete activeGames[gameId];
+      socketIO.getIO().emit(username, { message: null, options: gameOptions });
+      socketIO.getIO().emit(opponent, { message: null, options: gameOptions });
       return;
     }
     const formattedMessage = formatMessage(newGameObj.sender, newGameObj.message);
-    socketIO.getIO().emit(opponent, formattedMessage);
-
-    return {
-      success: true,
-      data: null
-    }
+    socketIO.getIO().emit(opponent, { message: formattedMessage });
+    return responseObj
   } catch (error) {
     console.log('Error playing game', error)
     throw error;
   }
 }
 
-
-const saveScore = async ({ username, score }) => {
-  // try {
-  //   const userGame = await Game.findOne({
-  //     where: {
-  //       username: username
-  //     }
-  //   });
-  //   if (userGame.score > score) {
-  //     return true
-  //   }
-  //   const game = new Game({ username, score });
-  //   const result = await game.save();
-  //   if (!result) {
-  //     return false;
-  //   } else {
-  //     return true;
-  //   }
-  // } catch (error) {
-  //   console.log('Error saving score', error)
-  //   throw error;
-  // }
+/**   
+ * Disconnect a user play
+ * @param username 
+ * @returns status - Object
+*/
+const onDisconnect = async ({ username }) => {
+  let responseObj = responseBuilder();
+  try {
+    gameUsers.pop(username);
+    playingUsers.pop(username);
+    socketIO.getIO().emit('allUsersOnline', [...gameUsers]);
+    responseObj = responseBuilder(true, gameUsers);
+    return responseObj
+  } catch (error) {
+    console.log('Error disconnecting user', error)
+    throw error;
+  }
 }
 
 
 
-module.exports = { gamePlay, getOnlineUsers, playUser, saveScore }
+module.exports = { gamePlay, getOnlineUsers, playUser, onDisconnect }

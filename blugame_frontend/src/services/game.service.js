@@ -11,7 +11,6 @@ function getUsersOnline(user, token) {
     }
   );
 }
-
 function playUser(data, token) {
   return axios.post(`${base_url}/game/playuser`,
     data,
@@ -22,7 +21,6 @@ function playUser(data, token) {
       },
     });
 }
-
 function gamePlay(data, token) {
   return axios.post(`${base_url}/game/gameplay`,
     data,
@@ -33,5 +31,14 @@ function gamePlay(data, token) {
       },
     });
 }
-
-export { getUsersOnline, playUser, gamePlay };
+function disconnectUser(data, token) {
+  return axios.post(`${base_url}/game/disconnectuser`,
+    data,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+}
+export { getUsersOnline, playUser, gamePlay, disconnectUser };

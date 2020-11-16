@@ -1,7 +1,7 @@
 const express = require('express');
 const { body } = require('express-validator');
 const isAuth = require('../../utils/middlewares/isAuth');
-const { saveGameScore, inGamePlay, getUsersOnline, playopponent } = require('../../controllers/game/game.controller')
+const { disconnectUser, inGamePlay, getUsersOnline, playopponent } = require('../../controllers/game/game.controller')
 
 const router = express.Router();
 
@@ -39,20 +39,10 @@ router.post('/gameplay', isAuth, [
     .withMessage('reply is required'),
 ], inGamePlay);
 
-
-
-
-router.post('/saveScore', isAuth, [
+router.post('/disconnectuser', isAuth, [
   body('username')
     .exists()
     .withMessage('Username is required'),
-
-  body('score')
-    .exists()
-    .withMessage('Score is required')
-    .isNumeric()
-    .withMessage('Enter a valid score'),
-
-], saveGameScore);
+], disconnectUser);
 
 module.exports = router;

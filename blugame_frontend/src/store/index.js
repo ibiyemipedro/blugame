@@ -11,7 +11,6 @@ export default new Vuex.Store({
     username: '',
     token: '',
     gameId: '',
-    opponent: '',
     authStatus: false
   },
   mutations: {
@@ -31,11 +30,6 @@ export default new Vuex.Store({
         state.token = '',
         state.gameId = '',
         state.authStatus = false
-      ]
-    },
-    setOpponent: (state, payload) => {
-      return [
-        state.opponent = payload,
       ]
     },
   },
@@ -93,16 +87,20 @@ export default new Vuex.Store({
         const response = await GameController.gamePlay(payload, context.state.token);
         return response.data;
       } catch (error) {
-        console.log('Start Game error ' + error);
+        console.log('Game play error ' + error);
+      }
+    },
+    disconnectUser: async (context, payload) => {
+      try {
+        const response = await GameController.disconnectUser(payload, context.state.token);
+        return response.data;
+      } catch (error) {
+        console.log('Disconnect user error ' + error);
       }
     },
     logOut: (context) => {
       context.commit('userLogout');
     },
-    setOpponent: (context, payload) => {
-      context.commit('setOpponent', payload);
-    },
-
   },
   getters: {
     getUserStatus: state => {
@@ -117,8 +115,5 @@ export default new Vuex.Store({
     getToken: state => {
       return state.token;
     },
-    getOpponent: state => {
-      return state.opponent;
-    }
   },
 })

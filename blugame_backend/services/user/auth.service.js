@@ -10,7 +10,7 @@ const { responseBuilder } = require('../../utils/utils');
  * @param username 
  * @param password
  * @param flag optional
- * @returns status - Boolean
+ * @returns status - Object
 */
 const authUser = async ({ username, password, flag }) => {
   let responseObj = responseBuilder();

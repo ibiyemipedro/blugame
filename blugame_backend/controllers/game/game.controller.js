@@ -1,5 +1,5 @@
 const { validationResult } = require('express-validator');
-const { saveScore, gamePlay, getOnlineUsers, playUser } = require('../../services/game/game.service')
+const { onDisconnect, gamePlay, getOnlineUsers, playUser } = require('../../services/game/game.service')
 
 const getUsersOnline = async (req, res, next) => {
   try {
@@ -42,52 +42,32 @@ const inGamePlay = async (req, res, next) => {
       return res.status(400).json({ errors: errors.array() });
     }
     const inGame = await gamePlay(req.body);
-    if (inGame.success) {
-      res.status(200).json({
-        status: true,
-        data: null
-      });
-    } else {
-      res.status(503).json({
-        status: false,
-        data: null
-      });
-    }
+    res.json({
+      status: inGame.success,
+      data: inGame.data,
+      message: inGame.message
+    });
   } catch (error) {
     next(error);
   }
 }
 
-
-const saveGameScore = async (req, res, next) => {
+const disconnectUser = async (req, res, next) => {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    const game = await saveScore(req.body)
-    if (game) {
-      return res.status(200).json({
-        status: true,
-        message: "Saved score success",
-        data: null
-      });
-    } else {
-      res.status(503).json({
-        status: false,
-        message: "Could not save game score",
-        data: null
-      });
-    }
+    const userStatus = await onDisconnect(req.body)
+    res.json({
+      status: userStatus.success,
+      data: userStatus.data,
+      message: userStatus.message
+    });
   } catch (error) {
     next(error);
   }
 }
 
 
-
-
-
-
-
-module.exports = { saveGameScore, inGamePlay, getUsersOnline, playopponent }
+module.exports = { disconnectUser, inGamePlay, getUsersOnline, playopponent }
